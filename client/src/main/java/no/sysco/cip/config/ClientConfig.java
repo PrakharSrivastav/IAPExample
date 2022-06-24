@@ -6,14 +6,11 @@ import com.google.auth.oauth2.ServiceAccountCredentials;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.security.PrivateKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.util.Date;
 
@@ -25,13 +22,8 @@ public class ClientConfig {
     @Bean
     public ServiceAccountCredentials serviceAccountCredentials() {
         try {
-            var res = new FileInputStream("/Users/prakhar/workspace/sysco/IAPExample/IAPExample/client/src/main/resources/cip-dev.json");
-            if (res.available() == 0) {
-                throw new RuntimeException("initialization error , resource not found");
-            }
-
-            // load client secrets
-            return ServiceAccountCredentials.fromStream(res);
+            ClassPathResource classPathResource = new ClassPathResource("cip-dev.json");
+            return ServiceAccountCredentials.fromStream(classPathResource.getInputStream());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
