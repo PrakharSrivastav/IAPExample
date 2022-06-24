@@ -14,3 +14,5 @@ Contains 2 modules client and server.
 - copy the service account file at client/src/main/resources
 - mvn spring-boot:run
 - this will send a hello world request to server at port 8080 with bearer token
+
+For more details check the unit tests for server.

@@ -4,6 +4,7 @@ package no.sysco.cip.server.controller;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +17,10 @@ public class HelloController {
 
     @GetMapping("/{name}")
     public ResponseEntity<String> hello(@PathVariable String name) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(principal.toString());
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // System.out.println(principal.toString());
 
-        return ResponseEntity.ok(String.format("hello %s", name));
+        return ResponseEntity.ok(String.format("hello %s [%s]", name, principal.getUsername()));
     }
 
 }
